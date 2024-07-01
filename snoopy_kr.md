@@ -14,6 +14,97 @@ success
 ```
 
 ## protobuf 버전 문제
+
+### 에러 메세지
+```shell
+(local-rag-example-py3.11) snoopy_kr@iMac local-rag-example % streamlit run app.py
+
+  You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8501
+  Network URL: http://192.168.0.3:8501
+
+/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/langchain/_api/module_import.py:120: LangChainDeprecationWarning: Importing filter_complex_metadata from langchain.vectorstores is deprecated. Please replace deprecated imports:
+
+>> from langchain.vectorstores import filter_complex_metadata
+
+with new imports of:
+
+>> from langchain_community.vectorstores.utils import filter_complex_metadata
+
+  warn_deprecated(
+Fetching 5 files: 100%|███████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 14403.52it/s]
+2024-07-01 11:21:14.578 Uncaught app exception
+Traceback (most recent call last):
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 567, in _run_script
+    self._session_state.on_script_will_rerun(
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/streamlit/runtime/state/safe_session_state.py", line 66, in on_script_will_rerun
+    self._state.on_script_will_rerun(latest_widget_states)
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/streamlit/runtime/state/session_state.py", line 514, in on_script_will_rerun
+    self._call_callbacks()
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/streamlit/runtime/state/session_state.py", line 527, in _call_callbacks
+    self._new_widget_state.call_callback(wid)
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/streamlit/runtime/state/session_state.py", line 271, in call_callback
+    callback(*args, **kwargs)
+  File "/Users/snoopy_kr/Working/PyCharm/local-rag-example/app.py", line 39, in read_and_save_file
+    st.session_state["assistant"].ingest(file_path)
+  File "/Users/snoopy_kr/Working/PyCharm/local-rag-example/rag.py", line 36, in ingest
+    vector_store = Chroma.from_documents(documents=chunks, embedding=FastEmbedEmbeddings())
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/langchain_community/vectorstores/chroma.py", line 790, in from_documents
+    return cls.from_texts(
+           ^^^^^^^^^^^^^^^
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/langchain_community/vectorstores/chroma.py", line 726, in from_texts
+    chroma_collection = cls(
+                        ^^^^
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/langchain_community/vectorstores/chroma.py", line 82, in __init__
+    import chromadb
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/chromadb/__init__.py", line 5, in <module>
+    from chromadb.auth.token import TokenTransportHeader
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/chromadb/auth/token/__init__.py", line 26, in <module>
+    from chromadb.telemetry.opentelemetry import (
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/chromadb/telemetry/opentelemetry/__init__.py", line 11, in <module>
+    from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/opentelemetry/exporter/otlp/proto/grpc/trace_exporter/__init__.py", line 22, in <module>
+    from opentelemetry.exporter.otlp.proto.grpc.exporter import (
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/opentelemetry/exporter/otlp/proto/grpc/exporter.py", line 39, in <module>
+    from opentelemetry.proto.common.v1.common_pb2 import (
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/opentelemetry/proto/common/v1/common_pb2.py", line 36, in <module>
+    _descriptor.FieldDescriptor(
+  File "/Users/snoopy_kr/Working/Poetry/virtualenvs/local-rag-example-K3t5StCg-py3.11/lib/python3.11/site-packages/google/protobuf/descriptor.py", line 621, in __new__
+    _message.Message._CheckCalledFromGeneratedFile()
+TypeError: Descriptors cannot be created directly.
+If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.
+If you cannot immediately regenerate your protos, some other possible workarounds are:
+ 1. Downgrade the protobuf package to 3.20.x or lower.
+ 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
+
+More information: https://developers.google.com/protocol-buffers/docs/news/2022-05-06#python-updates
+```
+
+### <s>설치 에러</s>
+```bash
+(local-rag-example-py3.11) snoopy_kr@iMac local-rag-example % poetry add protobuf@3.19.0
+
+Updating dependencies
+Resolving dependencies... (4.3s)
+
+Because no versions of streamlit match >1.29.0,<1.30.0 || >1.30.0,<1.31.0 || >1.31.0,<1.31.1 || >1.31.1,<1.32.0 || >1.32.0,<1.32.1 || >1.32.1,<1.32.2 || >1.32.2,<1.33.0 || >1.33.0,<1.34.0 || >1.34.0,<1.35.0 || >1.35.0,<1.36.0 || >1.36.0,<2.0.0
+ and streamlit (1.29.0) depends on protobuf (>=3.20,<5), streamlit (>=1.29.0,<1.30.0 || >1.30.0,<1.31.0 || >1.31.0,<1.31.1 || >1.31.1,<1.32.0 || >1.32.0,<1.32.1 || >1.32.1,<1.32.2 || >1.32.2,<1.33.0 || >1.33.0,<1.34.0 || >1.34.0,<1.35.0 || >1.35.0,<1.36.0 || >1.36.0,<2.0.0) requires protobuf (>=3.20,<5).
+And because streamlit (1.30.0) depends on protobuf (>=3.20,<5)
+ and streamlit (1.31.0) depends on protobuf (>=3.20,<5), streamlit (>=1.29.0,<1.31.1 || >1.31.1,<1.32.0 || >1.32.0,<1.32.1 || >1.32.1,<1.32.2 || >1.32.2,<1.33.0 || >1.33.0,<1.34.0 || >1.34.0,<1.35.0 || >1.35.0,<1.36.0 || >1.36.0,<2.0.0) requires protobuf (>=3.20,<5).
+And because streamlit (1.31.1) depends on protobuf (>=3.20,<5)
+ and streamlit (1.32.0) depends on protobuf (>=3.20,<5), streamlit (>=1.29.0,<1.32.1 || >1.32.1,<1.32.2 || >1.32.2,<1.33.0 || >1.33.0,<1.34.0 || >1.34.0,<1.35.0 || >1.35.0,<1.36.0 || >1.36.0,<2.0.0) requires protobuf (>=3.20,<5).
+And because streamlit (1.32.1) depends on protobuf (>=3.20,<5)
+ and streamlit (1.32.2) depends on protobuf (>=3.20,<5), streamlit (>=1.29.0,<1.33.0 || >1.33.0,<1.34.0 || >1.34.0,<1.35.0 || >1.35.0,<1.36.0 || >1.36.0,<2.0.0) requires protobuf (>=3.20,<5).
+And because streamlit (1.33.0) depends on protobuf (>=3.20,<5)
+ and streamlit (1.34.0) depends on protobuf (>=3.20,<5), streamlit (>=1.29.0,<1.35.0 || >1.35.0,<1.36.0 || >1.36.0,<2.0.0) requires protobuf (>=3.20,<5).
+And because streamlit (1.35.0) depends on protobuf (>=3.20,<5)
+ and streamlit (1.36.0) depends on protobuf (>=3.20,<6), streamlit (>=1.29.0,<2.0.0) requires protobuf (>=3.20,<6).
+So, because local-rag-example depends on both streamlit (^1.29.0) and protobuf (3.19.0), version solving failed.
+```
+
+### <s>설치 에러</s>
 ```bash
 (local-rag-example-py3.11) snoopy_kr@iMac local-rag-example % poetry add protobuf@3.20  
 
@@ -32,7 +123,10 @@ Resolving dependencies... (1.8s)
  and onnx (1.16.1) depends on protobuf (>=3.20.2), onnx (>=1.15.0,<2.0.0) requires protobuf (>=3.20.2).
     And because fastembed (>=0.2.4,<0.3.0) requires onnx (>=1.15.0,<2.0.0) (1), fastembed (>=0.2.4,<0.3.0) requires protobuf (>=3.20.2)
     So, because local-rag-example depends on both fastembed (^0.2.4) and protobuf (3.20), version solving failed.
+```
 
+### 설치
+```bash
 (local-rag-example-py3.11) snoopy_kr@iMac local-rag-example % poetry add protobuf@3.20.2
 
 Updating dependencies
