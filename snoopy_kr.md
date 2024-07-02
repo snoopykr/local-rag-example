@@ -138,3 +138,8 @@ Package operations: 0 installs, 1 update, 0 removals
 
 Writing lock file
 ```
+
+### 실행
+```bash
+streamlit run app.py
+```
