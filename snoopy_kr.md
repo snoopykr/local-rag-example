@@ -143,3 +143,68 @@ Writing lock file
 ```bash
 streamlit run app.py
 ```
+
+### Multi PDF 로딩
+
+[참조] https://diptimanrc.medium.com/rapid-q-a-on-multiple-pdfs-using-langchain-and-chromadb-as-local-disk-vector-store-60678328c0df
+
+```python
+def load_chunk_persist_pdf() -> Chroma:
+    pdf_folder_path = "D:\\diptiman\\dataset\\consent_forms_cleaned"
+    documents = []
+    for file in os.listdir(pdf_folder_path):
+        if file.endswith('.pdf'):
+            pdf_path = os.path.join(pdf_folder_path, file)
+            loader = PyPDFLoader(pdf_path)
+            documents.extend(loader.load())
+    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=10)
+    chunked_documents = text_splitter.split_documents(documents)
+    client = chromadb.Client()
+    if client.list_collections():
+        consent_collection = client.create_collection("consent_collection")
+    else:
+        print("Collection already exists")
+    vectordb = Chroma.from_documents(
+        documents=chunked_documents,
+        embedding=OpenAIEmbeddings(),
+        persist_directory="D:\\testing_space\\chroma_store\\"
+    )
+    vectordb.persist()
+    return vectordb
+```
+
+[참조] https://stackoverflow.com/questions/76886954/multiple-file-loading-and-embeddings-with-openai
+
+```python
+print("Loading data...")
+pdf_folder_path = "content/"
+print(os.listdir(pdf_folder_path))
+
+# Load multiple files
+loaders = [UnstructuredPDFLoader(os.path.join(pdf_folder_path, fn)) for fn in os.listdir(pdf_folder_path)]
+
+print(loaders)
+
+all_documents = []
+
+for loader in loaders:
+    print("Loading raw document..." + loader.file_path)
+    raw_documents = loader.load()
+
+    print("Splitting text...")
+    text_splitter = CharacterTextSplitter(
+        separator="\n\n",
+        chunk_size=800,
+        chunk_overlap=100,
+        length_function=len,
+    )
+    documents = text_splitter.split_documents(raw_documents)
+    all_documents.extend(documents)
+
+print("Creating vectorstore...")
+embeddings = OpenAIEmbeddings()
+vectorstore = FAISS.from_documents(all_documents, embeddings)
+
+with open("vectorstore.pkl", "wb") as f:
+    pickle.dump(vectorstore, f)
+```
