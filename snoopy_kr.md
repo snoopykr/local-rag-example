@@ -208,3 +208,8 @@ vectorstore = FAISS.from_documents(all_documents, embeddings)
 with open("vectorstore.pkl", "wb") as f:
     pickle.dump(vectorstore, f)
 ```
+
+
+(local-rag-example-py3.11) snoopy_kr@iMac local-rag-example % streamlit run main.py
+
+
