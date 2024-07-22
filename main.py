@@ -47,7 +47,7 @@ def main():
 
     st.subheader("Upload a document")
 
-    #
+    # 업로드
     st.file_uploader(
         "Upload document",
         type=["pdf"],
